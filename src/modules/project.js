@@ -32,14 +32,14 @@ class Project {
         
     }
 
-    update (
-
+    update ({
+        
         title = this.title, 
         description = this.description, 
         status = this.status, 
         dueDate = this.dueDate
 
-    ) {
+    } = {}) {
         
         this.title = title;
         this.description = description;

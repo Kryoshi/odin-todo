@@ -9,7 +9,7 @@ class App {
     }
 
     delete (project) {
-        let index = this.list.indexOf(project);
+        let index = this.projects.indexOf(project);
         if (index) {
             this.projects.splice(index, 1);
         }

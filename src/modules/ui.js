@@ -14,16 +14,19 @@ class UIComponent {
     nav;
     content;
     projectUIInstance;
+    projectListInstance;
 
-    constructor () {
+    constructor (app) {
 
         // Create elements
         this.page = document.createElement('div');
         this.nav = document.createElement('div');
         this.content = document.createElement('div');
         
-        const newProject = document.createElement('button');
         const pageTitle = document.createElement('h1');
+        const newProject = document.createElement('button');
+
+        this.projectListInstance = new ProjectListUIComponent(app);
 
         // Set attributes
         this.page.setAttribute('id', 'page');
@@ -36,7 +39,7 @@ class UIComponent {
         newProject.textContent = '+ New Project'
 
         // Append elements
-        this.nav.append(pageTitle, newProject);
+        this.nav.append(pageTitle, newProject, this.projectListInstance.element);
 
         this.page.append(this.nav, this.content);
 
@@ -79,6 +82,8 @@ class UIComponent {
             this.clear(this.content);
 
         }
+        this.projectListInstance.remove(project);
+
         
     }
 
@@ -125,6 +130,42 @@ class ProjectUIComponent {
         this.window.append(this.title, this.description, this.#content, newToDo);
 
         // Add listeners
+        this.window.addEventListener('condense', (e) => {
+
+            for (let toDoComponent of this.#toDoComponents) {
+
+                toDoComponent.condense();
+
+            }
+
+        });
+
+        this.title.addEventListener('input', (e) => {
+            
+            const event = new CustomEvent('update-project',
+            { 
+                detail: { project, title: this.title.value },
+                bubbles: true
+
+            });
+
+            this.window.dispatchEvent(event);
+
+        });
+
+        this.description.addEventListener('input', (e) => {
+            
+            const event = new CustomEvent('update-project',
+            { 
+                detail: { project, description: this.description.value },
+                bubbles: true
+
+            });
+
+            this.window.dispatchEvent(event);
+
+        });
+
         newToDo.addEventListener('click', (e) => {
 
             const event = new CustomEvent('new-todo', 
@@ -137,17 +178,6 @@ class ProjectUIComponent {
             this.window.dispatchEvent(event);
 
         });
-
-        this.window.addEventListener('condense', (e) => {
-
-            for (let toDoComponent of this.#toDoComponents) {
-
-                toDoComponent.condense();
-
-            }
-
-        });
-
 
     }
 
@@ -224,7 +254,7 @@ class ToDoUIComponent {
 
         this.status.addEventListener('input', (e) => {
 
-            const event = new CustomEvent('update-status',
+            const event = new CustomEvent('update-todo',
             { 
                 detail: { toDo, status: this.status.checked },
                 bubbles: true
@@ -236,7 +266,7 @@ class ToDoUIComponent {
 
         this.title.addEventListener('input', (e) => {
 
-            const event = new CustomEvent('update-todo-title',
+            const event = new CustomEvent('update-todo',
             { 
                 detail: { toDo, title: this.title.value },
                 bubbles: true
@@ -277,7 +307,7 @@ class ToDoUIComponent {
 class ProjectListUIComponent {
 
     element;
-    #projectListItems;
+    #projectListItems = [];
 
     constructor (app) {
 
@@ -303,9 +333,33 @@ class ProjectListUIComponent {
 
     }
 
+    update (project) {
+
+        for (let listItem of this.#projectListItems) {
+
+            if (listItem.getProject() === project) {
+
+                listItem.update();
+
+            }
+
+        }
+
+    }
+
     remove (project) {
         
-        this.#projectListItems
+        let index = 0;
+        for (let listItem of this.#projectListItems) {
+
+            if (listItem.getProject() === project) {
+                listItem.element.remove();
+                this.#projectListItems.splice(index, 1);
+                return;
+            }
+            index++;
+
+        }
 
     }
 
@@ -324,19 +378,35 @@ class ProjectListUIItem {
         // Create elements
         this.element = document.createElement('li');
 
-        this.title = document.createElement('h6');
+        this.#title = document.createElement('button');
         const deleteButton = document.createElement('button');
 
         // Set attributes
         this.element.className = 'project-li';
 
         this.#title.className = 'title'
-        this.#title.textContent = this.#project.title;
+        if (this.#project.title.trim() !== "") {
+
+            this.#title.textContent = this.#project.title;
+
+        } else this.#title.textContent = UNTITLED.project;
 
         // Append elements
-
+        this.element.append(this.#title, deleteButton);
 
         // Add listeners
+        this.#title.addEventListener('click', (e) => {
+
+            const event = new CustomEvent('display-project',
+            { 
+                detail: { project: this.#project },
+                bubbles: true
+            });
+
+            this.element.dispatchEvent(event);
+
+        });
+
         deleteButton.addEventListener('click', (e) => {
 
             const event = new CustomEvent('delete-project',
@@ -348,6 +418,22 @@ class ProjectListUIItem {
             this.element.dispatchEvent(event);
 
         });
+
+    }
+
+    update () {
+
+        if (this.#project.title.trim() !== "") {
+
+            this.#title.textContent = this.#project.title;
+
+        } else this.#title.textContent = UNTITLED.project;
+
+    }
+
+    getProject () {
+
+        return this.#project;
 
     }
 
