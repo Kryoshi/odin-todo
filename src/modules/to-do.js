@@ -1,4 +1,4 @@
-export {ToDo};
+export { ToDo };
 
 class ToDo {
 

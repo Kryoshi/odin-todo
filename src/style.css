@@ -13,11 +13,11 @@
 
 :root .theme-light {
     --color-theme-main: #fafaf9;
-    --color-theme-main-bg: #e5e7eb;
+    --color-theme-main-bg: #fef3c7;
     --color-theme-main-shadow: #a3a3a3;
 
-    --color-theme-main-headings: #0c0a09;
     --color-theme-main-text: #09090b;
+    --color-theme-main-text-alt: #0c0a09;
 
     --color-theme-user: #34d399;
 }
@@ -27,8 +27,8 @@
     --color-theme-main-bg: #09090b;
     --color-theme-main-shadow: #6b7280;
 
-    --color-theme-main-headings: #e5e7eb;
     --color-theme-main-text: #fafaf9;
+    --color-theme-main-text-alt: #e5e7eb;
 
     --color-theme-user: #059669;
 }
@@ -83,9 +83,105 @@ ul {
     list-style-type: none;
 }
 
+input, textarea {
+    appearance: none;
+    background-color: inherit;
+    border: none;
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border-bottom: 1px solid var(--color-theme-main-shadow);
+}
+
 html, body {
     margin: 0;
     padding: 0;
 
     height: 100%
+}
+
+#page {
+    min-height: 100%;
+    display: flex;
+}
+
+@media (max-width: 700px) {
+    #page {
+        flex-direction: column;
+    }
+}
+
+#nav {
+    min-width: clamp(20rem, 20%, 40rem);
+    background: var(--color-theme-user);
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 1rem;
+}
+
+#content {
+
+    flex-grow: 1;
+    background: var(--color-theme-main-bg);
+
+    display: flex;
+    flex-direction: column;
+
+    padding: 1rem;
+}
+
+#content > div {
+
+    display: grid;
+    grid-template-rows: 3rem 3rem 1fr;
+}
+
+
+.todo {
+
+    background-color: var(--color-theme-main);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+
+    display: grid;
+    grid-template-columns: 1.5rem 1fr 1.5rem 1.5rem;
+    grid-template-rows: 1.5rem;
+    column-gap: 0.5rem;
+    row-gap: 1rem;
+
+}
+
+.todo input[type='checkbox'] {
+
+    width: 1.2rem;
+    height: 1.2rem;
+    cursor: pointer;
+    border: 0.2rem outset var(--color-theme-main-text-alt);
+    border-radius: 50%;
+    padding: 0.1rem;
+
+    transition: all 0.1s linear;
+}
+
+.todo input[type='checkbox']:checked {
+
+    background-color: var(--color-theme-user);
+    border: 0.5rem outset var(--color-theme-main-text-alt);
+
+}
+
+.todo .mini {
+    grid-column: 2 / -1;
+    display: grid;
+    grid-template-columns: subgrid;
+}
+
+.todo .description {
+
+    grid-column: 2 / 3;
+    
 }
