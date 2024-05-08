@@ -13,6 +13,7 @@ class UIComponent {
     page;
     nav;
     content;
+    projectUIInstance;
 
     constructor () {
 
@@ -41,7 +42,7 @@ class UIComponent {
 
         // Add listeners
         newProject.addEventListener('click', (e) => {
-            const event = new Event('display-project', {
+            const event = new CustomEvent('display-project', {
                 bubbles: true,
             });
             newProject.dispatchEvent(event);
@@ -64,10 +65,28 @@ class UIComponent {
         }
     }
 
+    display (project) {
+
+        this.projectUIInstance = new ProjectUIComponent(project);
+        this.content.append(this.projectUIInstance.window);
+
+    }
+
+    delete (project) {
+
+        if (this.projectUIInstance.getProject() === project) {
+
+            this.clear(this.content);
+
+        }
+        
+    }
+
 }
 
 class ProjectUIComponent {
 
+    #project;
     window;
     title;
     description;
@@ -76,7 +95,9 @@ class ProjectUIComponent {
 
     constructor (project) {
 
-        // Create Elements
+        this.#project = project;
+
+        // Create elements
         this.window = document.createElement('div');
         this.title = document.createElement('input');
         this.description = document.createElement('textarea');
@@ -90,24 +111,30 @@ class ProjectUIComponent {
 
         const newToDo = document.createElement('button');
 
-        // Set Attributes
+        // Set ettributes
         this.window.className = 'project';
 
         this.title.placeholder = UNTITLED.project;
         this.description.placeholder = UNTITLED.description;
-        this.title.value = project.title;
-        this.description.value = project.description;
+        this.title.value = this.#project.title;
+        this.description.value = this.#project.description;
         
         newToDo.textContent = '+';
 
-        // Append Elements
+        // Append elements
         this.window.append(this.title, this.description, this.#content, newToDo);
 
         // Add listeners
         newToDo.addEventListener('click', (e) => {
 
-            const event = new Event('display-todo', { bubbles: true });
-            newToDo.dispatchEvent(event);
+            const event = new CustomEvent('new-todo', 
+            {
+
+                detail: { project: this.#project },
+                bubbles: true 
+
+            });
+            this.window.dispatchEvent(event);
 
         });
 
@@ -121,6 +148,12 @@ class ProjectUIComponent {
 
         });
 
+
+    }
+
+    getProject () {
+
+        return this.#project;
 
     }
 
@@ -189,6 +222,42 @@ class ToDoUIComponent {
 
         });
 
+        this.status.addEventListener('input', (e) => {
+
+            const event = new CustomEvent('update-status',
+            { 
+                detail: { toDo, status: this.status.checked },
+                bubbles: true
+            });
+
+            this.element.dispatchEvent(event);
+
+        });
+
+        this.title.addEventListener('input', (e) => {
+
+            const event = new CustomEvent('update-todo-title',
+            { 
+                detail: { toDo, title: this.title.value },
+                bubbles: true
+            });
+
+            this.element.dispatchEvent(event);
+
+        });
+
+        deleteButton.addEventListener('click', (e) => {
+
+            const event = new CustomEvent('delete-todo',
+            { 
+                detail: { toDo },
+                bubbles: true
+            });
+            
+            this.element.dispatchEvent(event);
+
+        });
+
     }
 
     expand() {
@@ -205,21 +274,81 @@ class ToDoUIComponent {
 
 }
 
-class ProjectListComponent {
+class ProjectListUIComponent {
 
     element;
     #projectListItems;
 
-    constructor () {
+    constructor (app) {
+
+        this.element = document.createElement('ul')
+
+        if (app.projects[0]) {
+
+            for (let project of app.projects) {
+
+                this.add(project);
+
+            }
+
+        }
 
     }
 
-    add () {
+    add (project) {
+
+        const projectListItem = new ProjectListUIItem(project)
+        this.element.append(projectListItem.element);
+        this.#projectListItems.push(projectListItem);
 
     }
 
-    remove () {
+    remove (project) {
         
+        this.#projectListItems
+
+    }
+
+}
+
+class ProjectListUIItem {
+
+    element;
+    #title;
+    #project;
+
+    constructor (project) {
+        
+        this.#project = project;
+
+        // Create elements
+        this.element = document.createElement('li');
+
+        this.title = document.createElement('h6');
+        const deleteButton = document.createElement('button');
+
+        // Set attributes
+        this.element.className = 'project-li';
+
+        this.#title.className = 'title'
+        this.#title.textContent = this.#project.title;
+
+        // Append elements
+
+
+        // Add listeners
+        deleteButton.addEventListener('click', (e) => {
+
+            const event = new CustomEvent('delete-project',
+            { 
+                detail: { project: this.#project },
+                bubbles: true
+            });
+
+            this.element.dispatchEvent(event);
+
+        });
+
     }
 
 }

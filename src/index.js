@@ -7,7 +7,7 @@ import { ToDo } from './modules/to-do';
 import { UIComponent } from './modules/ui';
 import { ProjectUIComponent } from './modules/ui';
 
-const app = (function () {
+const main = (function () {
 
     const body = document.querySelector('body');
 
@@ -23,7 +23,7 @@ const app = (function () {
         let project;
         if (e.detail) {
 
-            project = e.detail;
+            project = e.detail.project;
 
         } else {
             
@@ -31,29 +31,32 @@ const app = (function () {
             appInstance.add(project);
 
         }
+        uiInstance.display(project);
 
-        console.log({projects: appInstance.projects});
+    });
 
-        const projectUIInstance = new ProjectUIComponent(project);
-        uiInstance.content.append(projectUIInstance.window);
+    uiInstance.content.addEventListener('new-todo', (e) => {
 
-        projectUIInstance.window.addEventListener('display-todo', (e) => {
+        console.log('new todo');
+        if (e.detail.project) {
 
-            let toDo;
-            if (e.detail) {
+            const project = e.detail.project;  
+            const toDo = new ToDo();
+            project.add(toDo);
+            uiInstance.projectUIInstance.add(toDo);
 
-                toDo = e.detail;
+        }
+        
+    });
 
-            } else {
-                
-                toDo = new ToDo();
-                project.add(toDo);
+    uiInstance.page.addEventListener('delete-project', (e) => {
 
-            }
+        const project = e.detail.project;
+        if (project) {
 
-            projectUIInstance.add(toDo);
-            
-        });
+            appInstance.delete(project);
+
+        }
 
     });
 
