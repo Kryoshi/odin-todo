@@ -132,6 +132,22 @@ const main = (function () {
         
     });
 
+    uiInstance.content.addEventListener('delete-todo', (e) => {
+
+        if (e.detail.toDo) {
+
+            const toDo = e.detail.toDo;
+            const project = toDo.getProject();
+
+            uiInstance.projectUIInstance.remove(toDo);
+            project.remove(toDo);
+
+            project.checkStatus();
+            uiInstance.projectListInstance.update(project);
+
+        }
+        
+    });
 
 
 }) ();

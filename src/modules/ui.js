@@ -197,16 +197,36 @@ class ProjectUIComponent {
 
     }
 
+    remove (toDo) {
+
+        let index = 0;
+        for (let toDoComponent of this.#toDoComponents) {
+
+            if (toDoComponent.getToDo() === toDo) {
+                toDoComponent.element.remove();
+                this.#toDoComponents.splice(index, 1);
+                return;
+            }
+            index++;
+
+        }
+
+    }
+
 }
 
 class ToDoUIComponent {
 
+    #toDo;
     element;
     title;
     description;
     complete;
 
     constructor (toDo) {
+
+        this.#toDo = toDo;
+
         // Create elements
         this.element = document.createElement('div');
 
@@ -225,18 +245,18 @@ class ToDoUIComponent {
 
         this.complete.className = 'status';
         this.complete.type = 'checkbox';
-        this.complete.checked = toDo.complete;
+        this.complete.checked = this.#toDo.complete;
 
         this.title.className = 'title';
         this.title.placeholder = UNTITLED.todo;
-        this.title.value = toDo.title;
+        this.title.value = this.#toDo.title;
 
         editButton.className = 'edit';
         deleteButton.className = 'delete';
 
         this.description.className = 'description';
         this.description.placeholder = UNTITLED.description;
-        this.description.value = toDo.description;
+        this.description.value = this.#toDo.description;
 
         this.condense();
 
@@ -259,7 +279,7 @@ class ToDoUIComponent {
 
             const event = new CustomEvent('update-todo',
             { 
-                detail: { toDo, complete: this.complete.checked },
+                detail: { toDo: this.#toDo, complete: this.complete.checked },
                 bubbles: true
             });
 
@@ -271,7 +291,7 @@ class ToDoUIComponent {
 
             const event = new CustomEvent('update-todo',
             { 
-                detail: { toDo, title: this.title.value },
+                detail: { toDo: this.#toDo, title: this.title.value },
                 bubbles: true
             });
 
@@ -283,7 +303,7 @@ class ToDoUIComponent {
 
             const event = new CustomEvent('update-todo',
             { 
-                detail: { toDo, description: this.description.value },
+                detail: { toDo: this.#toDo, description: this.description.value },
                 bubbles: true
             });
 
@@ -295,7 +315,7 @@ class ToDoUIComponent {
 
             const event = new CustomEvent('delete-todo',
             { 
-                detail: { toDo },
+                detail: { toDo: this.#toDo },
                 bubbles: true
             });
             
@@ -314,6 +334,12 @@ class ToDoUIComponent {
     condense() {
 
         this.description.hidden = true;
+
+    }
+
+    getToDo () {
+
+        return this.#toDo;
 
     }
 

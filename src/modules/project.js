@@ -65,7 +65,6 @@ class Project {
 
             }
             this.status = complete / count;
-            console.log(this.status)
 
         }
 
@@ -82,11 +81,9 @@ class Project {
     remove (toDo) {
 
         let index = this.list.indexOf(toDo);
-        if (index) {
+        if (index !== -1) {
             this.list.splice(index, 1);
         }
-
-        this.modificationDate = Date.now();
 
     }
 }
