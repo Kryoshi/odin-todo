@@ -108,7 +108,7 @@ class ProjectUIComponent {
         this.description = document.createElement('textarea');
         this.#content = document.createElement('div');
 
-        for (let toDo in project.list) {
+        for (let toDo of this.#project.list) {
 
             this.add (toDo);
 
@@ -119,9 +119,11 @@ class ProjectUIComponent {
         // Set ettributes
         this.window.className = 'project';
 
+        this.title.maxLength = 50;
         this.title.placeholder = UNTITLED.project;
-        this.description.placeholder = UNTITLED.description;
         this.title.value = this.#project.title;
+
+        this.description.placeholder = UNTITLED.description;
         this.description.value = this.#project.description;
         
         newToDo.textContent = '+';
@@ -202,15 +204,14 @@ class ToDoUIComponent {
     element;
     title;
     description;
-    status;
+    complete;
 
     constructor (toDo) {
-
         // Create elements
         this.element = document.createElement('div');
 
         const mini = document.createElement('div');
-        this.status = document.createElement('input');
+        this.complete = document.createElement('input');
         this.title = document.createElement('input');
         const editButton = document.createElement('button');
         const deleteButton = document.createElement('button');
@@ -222,25 +223,27 @@ class ToDoUIComponent {
 
         mini.className = 'mini';
 
-        this.status.className = 'status';
-        this.status.type = 'checkbox';
-        this.status.checked = toDo.status;
+        this.complete.className = 'status';
+        this.complete.type = 'checkbox';
+        this.complete.checked = toDo.complete;
 
         this.title.className = 'title';
         this.title.placeholder = UNTITLED.todo;
-        this.title.textContent = toDo.title;
+        this.title.value = toDo.title;
 
         editButton.className = 'edit';
         deleteButton.className = 'delete';
 
         this.description.className = 'description';
         this.description.placeholder = UNTITLED.description;
+        this.description.value = toDo.description;
+
         this.condense();
 
         // Append elements
         mini.append(this.title, editButton, deleteButton);
 
-        this.element.append(this.status, mini, this.description);
+        this.element.append(this.complete, mini, this.description);
 
         // Add event listeners
         mini.addEventListener('click', (e) => {
@@ -252,11 +255,11 @@ class ToDoUIComponent {
 
         });
 
-        this.status.addEventListener('input', (e) => {
+        this.complete.addEventListener('input', (e) => {
 
             const event = new CustomEvent('update-todo',
             { 
-                detail: { toDo, status: this.status.checked },
+                detail: { toDo, complete: this.complete.checked },
                 bubbles: true
             });
 
@@ -269,6 +272,18 @@ class ToDoUIComponent {
             const event = new CustomEvent('update-todo',
             { 
                 detail: { toDo, title: this.title.value },
+                bubbles: true
+            });
+
+            this.element.dispatchEvent(event);
+
+        });
+
+        this.description.addEventListener('input', (e) => {
+
+            const event = new CustomEvent('update-todo',
+            { 
+                detail: { toDo, description: this.description.value },
                 bubbles: true
             });
 
@@ -369,6 +384,7 @@ class ProjectListUIItem {
 
     element;
     #title;
+    #status;
     #project;
 
     constructor (project) {
@@ -379,6 +395,7 @@ class ProjectListUIItem {
         this.element = document.createElement('li');
 
         this.#title = document.createElement('button');
+        this.#status = document.createElement('span');
         const deleteButton = document.createElement('button');
 
         // Set attributes
@@ -391,8 +408,12 @@ class ProjectListUIItem {
 
         } else this.#title.textContent = UNTITLED.project;
 
+        this.#status.className = 'status';
+        this.#status.textContent = `${Math.floor(this.#project.status * 100)}%`;
+
+        deleteButton.className = 'delete';
         // Append elements
-        this.element.append(this.#title, deleteButton);
+        this.element.append(this.#title, this.#status, deleteButton);
 
         // Add listeners
         this.#title.addEventListener('click', (e) => {
@@ -428,6 +449,7 @@ class ProjectListUIItem {
             this.#title.textContent = this.#project.title;
 
         } else this.#title.textContent = UNTITLED.project;
+        this.#status.textContent = `${Math.floor(this.#project.status * 100)}%`;
 
     }
 

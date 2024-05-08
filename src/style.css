@@ -113,7 +113,7 @@ html, body {
 }
 
 #nav {
-    min-width: clamp(20rem, 20%, 40rem);
+    min-width: clamp(30ch, 20%, 60ch);
     background: var(--color-theme-user);
 
     display: flex;
@@ -184,4 +184,24 @@ html, body {
 
     grid-column: 2 / 3;
     
+}
+
+.project-li {
+    height: 1.5rem;
+
+    display: grid;
+    grid-template-columns: 1fr 1.5rem 1.5rem;
+    gap: 0.5rem;
+}
+
+.project-li .title {
+    
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+
+}
+
+.project-li button.delete {
+    width: 1.5rem;
 }

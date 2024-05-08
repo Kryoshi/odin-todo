@@ -17,7 +17,7 @@ const main = (function () {
 
     uiInstance.page.addEventListener('display-project', (e) => {
 
-        uiInstance.clear(content);
+        uiInstance.clear(uiInstance.content);
 
         let project;
         if (e.detail) {
@@ -71,7 +71,6 @@ const main = (function () {
 
             project.update(update);
             uiInstance.projectListInstance.update(project);
-            console.log({project})
 
         }
 
@@ -79,19 +78,61 @@ const main = (function () {
 
     uiInstance.content.addEventListener('new-todo', (e) => {
 
-        console.log('new todo');
         if (e.detail.project) {
 
             const project = e.detail.project;  
-            const toDo = new ToDo();
+            const toDo = new ToDo(project);
             project.add(toDo);
+            project.checkStatus();
+
             uiInstance.projectUIInstance.add(toDo);
+            uiInstance.projectListInstance.update(project);
+
+        }
+        
+    });
+
+    uiInstance.content.addEventListener('update-todo', (e) => {
+
+        if (e.detail.toDo) {
+            const toDo = e.detail.toDo;
+            const update = {}
+            let statusUpdated = false;
+            if (e.detail.title !== undefined) {
+
+                update.title = e.detail.title;
+
+            }
+            if (e.detail.description !== undefined) {
+
+                update.description = e.detail.description;
+
+            }
+            if (e.detail.complete !== undefined) {
+
+                update.complete = e.detail.complete;
+                statusUpdated = true;
+
+            }
+            if (e.detail.dueDate !== undefined) {
+
+                update.dueDate = e.detail.dueDate;
+
+            }
+
+            toDo.update(update);
+
+            if (statusUpdated) {
+                const project = toDo.getProject();
+                project.checkStatus();
+                uiInstance.projectListInstance.update(project);
+            }
 
         }
         
     });
 
 
-    
+
 }) ();
 
