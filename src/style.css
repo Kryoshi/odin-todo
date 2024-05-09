@@ -2,6 +2,20 @@
     box-sizing: border-box;
 }
 
+@font-face {
+
+    font-family: 'Script';
+  
+    src: url('./fonts/tangerine_regular-webfont.woff2') format('woff2'),
+  
+      url('./fonts/tangerine_regular-webfont.woff') format('woff');
+  
+    font-weight: 600;
+  
+    font-style: normal;
+  
+  }
+
 :root {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 16px;
@@ -190,7 +204,7 @@ html, body {
     height: 1.5rem;
 
     display: grid;
-    grid-template-columns: 1fr 1.5rem 1.5rem;
+    grid-template-columns: 1fr 5ch 1.5rem;
     gap: 0.5rem;
 }
 
@@ -203,5 +217,7 @@ html, body {
 }
 
 .project-li button.delete {
+
     width: 1.5rem;
+    
 }

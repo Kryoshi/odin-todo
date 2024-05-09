@@ -105,7 +105,7 @@ class ProjectUIComponent {
         // Create elements
         this.window = document.createElement('div');
         this.title = document.createElement('input');
-        this.description = document.createElement('textarea');
+        this.description = document.createElement('input');
         this.#content = document.createElement('div');
 
         for (let toDo of this.#project.list) {
@@ -236,7 +236,7 @@ class ToDoUIComponent {
         const editButton = document.createElement('button');
         const deleteButton = document.createElement('button');
 
-        this.description = document.createElement('textarea');
+        this.description = document.createElement('input');
 
         // Set attributes
         this.element.className = 'todo';
