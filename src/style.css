@@ -20,20 +20,27 @@
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 16px;
 
-    --color-theme-positive: #059669;
-    --color-theme-mixed: #f59e0b;
-    --color-theme-negative: #ef4444;
+
 }
 
 :root .theme-light {
     --color-theme-main: #fafaf9;
-    --color-theme-main-bg: #fef3c7;
+    --color-theme-main-bg: #e7e5e4;
     --color-theme-main-shadow: #a3a3a3;
+    --color-theme-main-highlight: #d1d5db;
+
+    --color-theme-alt: #fef3c7;
+    --color-theme-alt-bg: ;
+    --color-theme-alt-highlight: #fed7aa;
 
     --color-theme-main-text: #09090b;
-    --color-theme-main-text-alt: #0c0a09;
+    --color-theme-alt-text: #0c0a09;
 
     --color-theme-user: #34d399;
+
+    --color-theme-positive: #86efac;
+    --color-theme-mixed: #f59e0b;
+    --color-theme-negative: #f87171;
 }
 
 :root .theme-dark {
@@ -41,10 +48,17 @@
     --color-theme-main-bg: #09090b;
     --color-theme-main-shadow: #6b7280;
 
+    --color-theme-alt: ;
+    --color-theme-alt-bg: ;
+
     --color-theme-main-text: #fafaf9;
-    --color-theme-main-text-alt: #e5e7eb;
+    --color-theme-alt-text: #e5e7eb;
 
     --color-theme-user: #059669;
+
+    --color-theme-positive: #059669;
+    --color-theme-mixed: #f59e0b;
+    --color-theme-negative: #ef4444;
 }
 
 h1,h2,h3,h4,h5,h6,p,a {
@@ -54,7 +68,9 @@ h1,h2,h3,h4,h5,h6,p,a {
 }
 
 button {
+    font: inherit;
     appearance: none;
+    padding: 0;
     color: inherit;
     cursor: pointer;
 }
@@ -100,12 +116,52 @@ ul {
 input, textarea {
     appearance: none;
     background-color: inherit;
+    font: inherit;
     border: none;
+    padding: 0.5rem;
 }
 
 input:focus, textarea:focus {
     outline: none;
     border-bottom: 1px solid var(--color-theme-main-shadow);
+}
+
+button {
+    background: none;
+    border: none;
+}
+
+button .icon {
+
+    height: 80%;
+    width: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+}
+
+button.delete .icon {
+    background-image: url('./img/trash.svg');
+}
+
+button.edit .icon {
+    background-image: url('./img/lock-open.svg');
+}
+
+button.edit.locked .icon {
+    background-image: url('./img/lock.svg');
+}
+
+button.expand .icon {
+    background-image: url('./img/arrow-down.svg');
+}
+
+button.expand.expanded .icon {
+    background-image: url('./img/arrow-up.svg');
+}
+
+button.new .icon {
+    background-image: url('./img/plus.svg');
 }
 
 html, body {
@@ -120,20 +176,28 @@ html, body {
     display: flex;
 }
 
-@media (max-width: 700px) {
-    #page {
-        flex-direction: column;
-    }
+.page-title {
+    font-size: 3rem;
+    font-family: 'Script', Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    margin-bottom: 2rem;
 }
 
 #nav {
-    min-width: clamp(30ch, 20%, 60ch);
-    background: var(--color-theme-user);
+    min-width: clamp(40ch, 20%, 60ch);
+    background: var(--color-theme-alt);
 
     display: flex;
     flex-direction: column;
-
     padding: 1rem;
+}
+
+@media (max-width: 800px) {
+    #page {
+        flex-direction: column;
+    }
+    #nav {
+        min-width: 0;
+    }
 }
 
 #content {
@@ -147,12 +211,85 @@ html, body {
     padding: 1rem;
 }
 
-#content > div {
+.project button:hover, .project button:active {
 
-    display: grid;
-    grid-template-rows: 3rem 3rem 1fr;
+    background-color: var(--color-theme-main-highlight);
+
 }
 
+.project {
+
+    display: grid;
+    grid-template-rows: min-content 1fr;
+    gap: 2rem;
+}
+
+.input-wrapper {
+    display: grid;
+}
+
+.input-wrapper::after {
+    content: attr(data-copied-value) " ";
+    white-space: pre-wrap;
+    word-break: break-all;
+    visibility: hidden;
+}
+
+.input-wrapper textarea {
+    resize: none;
+    overflow: hidden;
+}
+
+.input-wrapper textarea, .input-wrapper::after {
+
+    padding: 0.5rem;
+
+    grid-area: 1 / 1 / 2 / 2;
+
+}
+.project .header {
+
+    background-color: var(--color-theme-main);
+    padding: 1rem;
+    border-radius: 0.5rem;
+
+    display: grid;
+    grid-template-columns: 1fr 2rem;
+    grid-template-rows: 1fr 1fr min-content;
+
+    .title {
+
+        grid-column: 1 / 2;
+
+    }
+    .description {
+        
+        grid-column: 1 / 2;
+        grid-row: 2 / -1;
+
+    }
+
+    button.new {
+
+        min-height: 2rem;
+        min-width: 2rem;
+        grid-row: 3 / -1;
+        border-radius: 0.5rem;
+
+    }
+
+
+}
+
+@media (max-width: 800px) {
+
+    .project .header {
+
+        
+
+    }
+
+}
 
 .todo {
 
@@ -162,8 +299,8 @@ html, body {
     margin-bottom: 1rem;
 
     display: grid;
-    grid-template-columns: 1.5rem 1fr 1.5rem 1.5rem;
-    grid-template-rows: 1.5rem;
+    grid-template-columns: 1.5rem 1fr 2rem 2rem 2rem;
+    align-items: center;
     column-gap: 0.5rem;
     row-gap: 1rem;
 
@@ -174,7 +311,7 @@ html, body {
     width: 1.2rem;
     height: 1.2rem;
     cursor: pointer;
-    border: 0.2rem outset var(--color-theme-main-text-alt);
+    border: 0.2rem outset var(--color-theme-alt-text);
     border-radius: 50%;
     padding: 0.1rem;
 
@@ -184,7 +321,7 @@ html, body {
 .todo input[type='checkbox']:checked {
 
     background-color: var(--color-theme-user);
-    border: 0.5rem outset var(--color-theme-main-text-alt);
+    border: 0.5rem outset var(--color-theme-alt-text);
 
 }
 
@@ -200,24 +337,104 @@ html, body {
     
 }
 
+.todo button {
+
+    border-radius: 10%;
+    height: 2rem;
+    width: 2rem;
+    
+}
+
 .project-li {
-    height: 1.5rem;
+    height: 3rem;
 
     display: grid;
-    grid-template-columns: 1fr 5ch 1.5rem;
-    gap: 0.5rem;
+    grid-template-columns: 1fr 5ch 2rem;
+    gap: 1rem;
+    align-items: center;
+    justify-items: left;
+
+    border-radius: 0.5rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+.project-li:hover, .project-li:active {
+
+    background-color: var(--color-theme-alt-highlight);
+
+}
+
+.project-li.new .icon {
+    background-position: left;
 }
 
 .project-li .title {
     
+    height: 100%;
+    text-align: left;
+    min-width: 20ch;
+    max-width: 12vw;
+
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
 
 }
 
+@media (max-width: 800px) {
+
+    .project-li .title {
+        
+        min-width: 0;
+        max-width: 100%;
+    
+    }
+
+}
+
+.project-li .status {
+
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    
+}
+
+.project-li .status.incomplete {
+
+    background-color: var(--color-theme-negative);        
+
+}
+
+.project-li .status.in-progress {
+
+    background-color: var(--color-theme-mixed);
+
+}
+
+.project-li .status.complete {
+
+    background-color: var(--color-theme-positive);
+
+}
+
 .project-li button.delete {
 
-    width: 1.5rem;
+    border-radius: 10%;
+    height: 2rem;
+    width: 2rem;
     
+}
+
+button.delete:hover, button.delete:active {
+    background-color: var(--color-theme-negative);
+}
+
+button.edit:hover, button.edit:active {
+    background-color: var(--color-theme-mixed);
+}
+
+.hidden {
+    display: none;
 }

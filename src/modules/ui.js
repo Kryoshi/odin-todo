@@ -24,7 +24,7 @@ class UIComponent {
         this.content = document.createElement('div');
         
         const pageTitle = document.createElement('h1');
-        const newProject = document.createElement('button');
+        const newProject = createButton('new');
 
         this.projectListInstance = new ProjectListUIComponent(app);
 
@@ -33,10 +33,10 @@ class UIComponent {
         this.nav.setAttribute('id', 'nav');
         this.content.setAttribute('id', 'content');
 
+        pageTitle.className = 'page-title';
         pageTitle.textContent = APPNAME;
 
-        newProject.setAttribute('class', 'project-li new');
-        newProject.textContent = '+ New Project'
+        newProject.classList.add('project-li');
 
         // Append elements
         this.nav.append(pageTitle, newProject, this.projectListInstance.element);
@@ -104,8 +104,17 @@ class ProjectUIComponent {
 
         // Create elements
         this.window = document.createElement('div');
-        this.title = document.createElement('input');
-        this.description = document.createElement('input');
+
+        const header = document.createElement('div');
+
+        const titleWrapper = document.createElement('div');
+        this.title = document.createElement('textarea');
+
+        const descriptionWrapper = document.createElement('div');
+        this.description = document.createElement('textarea');
+
+        const newToDo = createButton('new');
+
         this.#content = document.createElement('div');
 
         for (let toDo of this.#project.list) {
@@ -114,22 +123,29 @@ class ProjectUIComponent {
 
         }
 
-        const newToDo = document.createElement('button');
 
-        // Set ettributes
+        // Set attributes
         this.window.className = 'project';
 
-        this.title.maxLength = 50;
+        header.className = 'header';
+
+        this.title.className = 'title';
+        this.title.rows = '1';
         this.title.placeholder = UNTITLED.project;
         this.title.value = this.#project.title;
+        titleWrapper.className = 'input-wrapper title';
+        titleWrapper.dataset.copiedValue = this.title.value;
 
         this.description.placeholder = UNTITLED.description;
         this.description.value = this.#project.description;
-        
-        newToDo.textContent = '+';
+        descriptionWrapper.className = 'input-wrapper description';
+        descriptionWrapper.dataset.copiedValue = this.description.value;
 
         // Append elements
-        this.window.append(this.title, this.description, this.#content, newToDo);
+        titleWrapper.append(this.title);
+        descriptionWrapper.append(this.description);
+        header.append(titleWrapper, descriptionWrapper, newToDo)
+        this.window.append(header, this.#content);
 
         // Add listeners
         this.window.addEventListener('condense', (e) => {
@@ -143,6 +159,8 @@ class ProjectUIComponent {
         });
 
         this.title.addEventListener('input', (e) => {
+
+            titleWrapper.dataset.copiedValue = this.title.value;
             
             const event = new CustomEvent('update-project',
             { 
@@ -157,6 +175,8 @@ class ProjectUIComponent {
 
         this.description.addEventListener('input', (e) => {
             
+            descriptionWrapper.dataset.copiedValue = this.description.value;
+
             const event = new CustomEvent('update-project',
             { 
                 detail: { project, description: this.description.value },
@@ -189,6 +209,13 @@ class ProjectUIComponent {
 
     }
 
+    toggleEdit () {
+
+        this.title.disabled = !(this.title.disabled);
+        this.description.disabled = !(this.description.disabled);
+
+    }
+
     add (toDo) {
 
         const toDoComponent = new ToDoUIComponent(toDo)
@@ -215,12 +242,29 @@ class ProjectUIComponent {
 
 }
 
+function createButton (className) {
+
+    const button = document.createElement('button');
+    const icon = document.createElement('div');
+
+    button.className = className;
+    icon.className = 'icon';
+
+    button.append(icon);
+
+    return button;
+
+}
+
 class ToDoUIComponent {
 
     #toDo;
     element;
     title;
+    #expandButton;
+    #editButton;
     description;
+    #descriptionWrapper;
     complete;
 
     constructor (toDo) {
@@ -232,11 +276,15 @@ class ToDoUIComponent {
 
         const mini = document.createElement('div');
         this.complete = document.createElement('input');
-        this.title = document.createElement('input');
-        const editButton = document.createElement('button');
-        const deleteButton = document.createElement('button');
+        const titleWrapper = document.createElement('div');
+        this.title = document.createElement('textarea');
 
-        this.description = document.createElement('input');
+        this.#expandButton = createButton('expand');
+        this.#editButton = createButton('edit')
+        const deleteButton = createButton('delete')
+
+        this.#descriptionWrapper = document.createElement('div');
+        this.description = document.createElement('textarea');
 
         // Set attributes
         this.element.className = 'todo';
@@ -249,31 +297,26 @@ class ToDoUIComponent {
 
         this.title.className = 'title';
         this.title.placeholder = UNTITLED.todo;
+        this.title.rows = '1';
         this.title.value = this.#toDo.title;
+        titleWrapper.className = 'input-wrapper title';
+        titleWrapper.dataset.copiedValue = this.title.value;
 
-        editButton.className = 'edit';
-        deleteButton.className = 'delete';
-
-        this.description.className = 'description';
         this.description.placeholder = UNTITLED.description;
         this.description.value = this.#toDo.description;
+        this.#descriptionWrapper.className = 'input-wrapper description';
+        this.#descriptionWrapper.dataset.copiedValue = this.description.value;
 
         this.condense();
 
         // Append elements
-        mini.append(this.title, editButton, deleteButton);
+        titleWrapper.append(this.title);
+        mini.append(titleWrapper, this.#expandButton, this.#editButton, deleteButton);
 
-        this.element.append(this.complete, mini, this.description);
+        this.#descriptionWrapper.append(this.description);
+        this.element.append(this.complete, mini, this.#descriptionWrapper);
 
         // Add event listeners
-        mini.addEventListener('click', (e) => {
-
-            const event = new Event('condense', { bubbles: true });
-            this.element.dispatchEvent(event);
-
-            this.expand();
-
-        });
 
         this.complete.addEventListener('input', (e) => {
 
@@ -289,6 +332,8 @@ class ToDoUIComponent {
 
         this.title.addEventListener('input', (e) => {
 
+            titleWrapper.dataset.copiedValue = this.title.value;
+
             const event = new CustomEvent('update-todo',
             { 
                 detail: { toDo: this.#toDo, title: this.title.value },
@@ -300,6 +345,8 @@ class ToDoUIComponent {
         });
 
         this.description.addEventListener('input', (e) => {
+
+            this.#descriptionWrapper.dataset.copiedValue = this.description.value;
 
             const event = new CustomEvent('update-todo',
             { 
@@ -323,17 +370,59 @@ class ToDoUIComponent {
 
         });
 
+        this.#editButton.addEventListener('click', (e) => {
+
+            this.toggleEdit();
+
+        });
+
+        this.#expandButton.addEventListener('click', (e) => {
+
+            if (!(this.#descriptionWrapper.classList.contains('hidden'))) {
+
+                this.condense();
+
+            } else {
+
+                const event = new Event('condense', { bubbles: true });
+                this.element.dispatchEvent(event);
+    
+                this.expand();
+
+            }
+
+        });
+
     }
 
-    expand() {
+    expand () {
 
-        this.description.hidden = false;
+        this.#descriptionWrapper.classList.remove('hidden');
+        this.#expandButton.classList.add('expanded');
 
     }
 
-    condense() {
+    condense () {
 
-        this.description.hidden = true;
+        this.#descriptionWrapper.classList.add('hidden');
+        this.#expandButton.classList.remove('expanded');
+
+    }
+
+    toggleEdit () {
+
+        this.title.disabled = !(this.title.disabled);
+        this.description.disabled = !(this.description.disabled);
+
+        if (this.title.disabled) {
+
+            this.#editButton.classList.add('locked');
+
+        } else {
+
+            this.#editButton.classList.remove('locked');
+
+        }
 
     }
 
@@ -353,6 +442,7 @@ class ProjectListUIComponent {
     constructor (app) {
 
         this.element = document.createElement('ul')
+        this.element.className = 'project-ul';
 
         if (app.projects[0]) {
 
@@ -422,22 +512,16 @@ class ProjectListUIItem {
 
         this.#title = document.createElement('button');
         this.#status = document.createElement('span');
-        const deleteButton = document.createElement('button');
+        const deleteButton = createButton('delete');
 
         // Set attributes
         this.element.className = 'project-li';
 
         this.#title.className = 'title'
-        if (this.#project.title.trim() !== "") {
-
-            this.#title.textContent = this.#project.title;
-
-        } else this.#title.textContent = UNTITLED.project;
-
         this.#status.className = 'status';
-        this.#status.textContent = `${Math.floor(this.#project.status * 100)}%`;
 
-        deleteButton.className = 'delete';
+        this.update();
+
         // Append elements
         this.element.append(this.#title, this.#status, deleteButton);
 
@@ -475,6 +559,24 @@ class ProjectListUIItem {
             this.#title.textContent = this.#project.title;
 
         } else this.#title.textContent = UNTITLED.project;
+
+        if (this.#project.status < 0.5) {
+
+            this.#status.classList.remove('complete', 'in-progress');
+            this.#status.classList.add('incomplete');
+
+        } else if (this.#project.status < 1) {
+
+            this.#status.classList.remove('complete', 'incomplete');
+            this.#status.classList.add('in-progress');
+
+        } else {
+
+            this.#status.classList.remove('in-progress', 'incomplete');
+            this.#status.classList.add('complete');
+
+        }
+
         this.#status.textContent = `${Math.floor(this.#project.status * 100)}%`;
 
     }
