@@ -1,3 +1,5 @@
+import { ToDo } from "./to-do";
+
 export { Project };
 
 class Project {
@@ -9,27 +11,30 @@ class Project {
     list = [];
 
     dueDate;
-    creationDate;
-    modificationDate;
 
 
-    constructor (
+    constructor ({
 
         title = this.title, 
         description = this.description, 
         status = this.status, 
+        list = this.list,
         dueDate = this.dueDate
 
-    ) {
+    } = {}) {
 
         this.title = title;
         this.description = description;
         this.status = status;
+
+        for (let todo of list) {
+
+            this.add(new ToDo(this, todo));
+
+        }
+
         this.dueDate = dueDate;
 
-        this.creationDate = Date.now;
-        this.modificationDate = this.creationDate;
-        
     }
 
     update ({
@@ -43,8 +48,6 @@ class Project {
         this.title = title;
         this.description = description;
         this.dueDate = dueDate;
-
-        this.modificationDate = Date.now();
         
     }
 
@@ -73,8 +76,6 @@ class Project {
     add (toDo) {
 
         this.list.push(toDo);
-
-        this.modificationDate = Date.now();
 
     }
 

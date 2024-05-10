@@ -1,3 +1,6 @@
+import { Project } from './project';
+import { storageAvailable } from './storage';
+
 export { App };
 
 class App {
@@ -17,9 +20,30 @@ class App {
 
     load () {
 
+        if (storageAvailable('localStorage')) {
+
+            const loadArray = JSON.parse(localStorage.getItem('projects'));
+            
+            for (let project of loadArray) {
+                
+                let projectInstance = new Project(project);
+
+                this.add(projectInstance);
+
+            }
+
+        }
+
     }
 
     save () {
+
+        if (storageAvailable('localStorage')) {
+
+            const projectString = JSON.stringify(this.projects);
+            localStorage.setItem('projects', projectString);
+
+        }
 
     }
 

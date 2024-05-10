@@ -11,9 +11,23 @@ const main = (function () {
     const body = document.querySelector('body');
 
     const appInstance = new App();
+    appInstance.load();
     const uiInstance = new UIComponent(appInstance);
 
     body.append(uiInstance.page);
+
+    const save = () => {
+
+        const event = new Event('save');
+        uiInstance.page.dispatchEvent(event);
+
+    }
+
+    uiInstance.page.addEventListener('save', (e) => {
+
+        appInstance.save();
+
+    });
 
     uiInstance.page.addEventListener('display-project', (e) => {
 
@@ -45,6 +59,8 @@ const main = (function () {
 
         }
 
+        save();
+
     });
 
     uiInstance.page.addEventListener('update-project', (e) => {
@@ -72,6 +88,8 @@ const main = (function () {
             project.update(update);
             uiInstance.projectListInstance.update(project);
 
+            save();
+
         }
 
     });
@@ -87,6 +105,8 @@ const main = (function () {
 
             uiInstance.projectUIInstance.add(toDo);
             uiInstance.projectListInstance.update(project);
+
+            save();
 
         }
         
@@ -128,6 +148,8 @@ const main = (function () {
                 uiInstance.projectListInstance.update(project);
             }
 
+            save();
+
         }
         
     });
@@ -144,6 +166,8 @@ const main = (function () {
 
             project.checkStatus();
             uiInstance.projectListInstance.update(project);
+
+            save();
 
         }
         

@@ -8,17 +8,15 @@ class ToDo {
     complete = false;
 
     dueDate;
-    creationDate;
-    modificationDate;
 
 
     constructor (
-        project,
+        project, {
         title = this.title,
         description = this.description,
-        dueDate = this.dueDate,
-        complete = this.complete
-    ) {
+        complete = this.complete,
+        dueDate = this.dueDate
+    } = {}) {
 
         this.#project = project;
 
@@ -27,8 +25,6 @@ class ToDo {
         this.complete = complete;
 
         this.dueDate = dueDate;
-        this.creationDate = Date.now();
-        this.modificationDate = this.creationDate;
 
     }
 
@@ -44,8 +40,7 @@ class ToDo {
         this.complete = complete;
         
         this.dueDate = dueDate;
-        this.modificationDate = Date.now();
-        
+
     }
 
     getProject () {

@@ -49,11 +49,18 @@ class UIComponent {
         this.page.append(this.nav, this.content);
 
         // Add listeners
+        pageLogo.addEventListener('click', (e) => {
+            const event = new CustomEvent('save', {
+                bubbles: true,
+            });
+            this.page.dispatchEvent(event);
+        });
+
         newProject.addEventListener('click', (e) => {
             const event = new CustomEvent('display-project', {
                 bubbles: true,
             });
-            newProject.dispatchEvent(event);
+            this.page.dispatchEvent(event);
         });
 
 
@@ -82,10 +89,12 @@ class UIComponent {
 
     delete (project) {
 
-        if (this.projectUIInstance.getProject() === project) {
+        if (this.projectUIInstance !== undefined) {
+            if (this.projectUIInstance.getProject() === project) {
 
-            this.clear(this.content);
+                this.clear(this.content);
 
+            }
         }
         this.projectListInstance.remove(project);
 
