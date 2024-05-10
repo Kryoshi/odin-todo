@@ -31,10 +31,11 @@
 
     --color-theme-alt: #fef3c7;
     --color-theme-alt-bg: ;
+    --color-theme-alt-shadow: #e7e5e4;
     --color-theme-alt-highlight: #fed7aa;
 
     --color-theme-main-text: #09090b;
-    --color-theme-alt-text: #0c0a09;
+    --color-theme-alt-text: #52525b;
 
     --color-theme-user: #34d399;
 
@@ -126,6 +127,10 @@ input:focus, textarea:focus {
     border-bottom: 1px solid var(--color-theme-main-shadow);
 }
 
+textarea:disabled {
+    color: var(--color-theme-main-text);
+}
+
 button {
     background: none;
     border: none;
@@ -140,15 +145,19 @@ button .icon {
     
 }
 
+button.home .icon {
+    background-image: url('./img/notebook.svg');
+}
+
 button.delete .icon {
     background-image: url('./img/trash.svg');
 }
 
-button.edit .icon {
+.todo button.edit .icon {
     background-image: url('./img/lock-open.svg');
 }
 
-button.edit.locked .icon {
+.todo.locked button.edit .icon {
     background-image: url('./img/lock.svg');
 }
 
@@ -156,7 +165,7 @@ button.expand .icon {
     background-image: url('./img/arrow-down.svg');
 }
 
-button.expand.expanded .icon {
+.expanded button.expand .icon {
     background-image: url('./img/arrow-up.svg');
 }
 
@@ -176,10 +185,22 @@ html, body {
     display: flex;
 }
 
+.page-header {
+
+    height: 5rem;
+    display: flex;
+    align-items: center;
+}
+
+.page-header button.home {
+
+    width: 4rem;
+    height: 4rem;
+
+}
 .page-title {
-    font-size: 3rem;
+    font-size: 4rem;
     font-family: 'Script', Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    margin-bottom: 2rem;
 }
 
 #nav {
@@ -189,6 +210,8 @@ html, body {
     display: flex;
     flex-direction: column;
     padding: 1rem;
+
+    border-right: 0.2rem outset var(--color-theme-alt-highlight);
 }
 
 @media (max-width: 800px) {
@@ -255,7 +278,7 @@ html, body {
 
     display: grid;
     grid-template-columns: 1fr 2rem;
-    grid-template-rows: 1fr 1fr min-content;
+    grid-template-rows: min-content min-content min-content;
 
     .title {
 
@@ -291,6 +314,10 @@ html, body {
 
 }
 
+.todo-list {
+
+}
+
 .todo {
 
     background-color: var(--color-theme-main);
@@ -303,6 +330,13 @@ html, body {
     align-items: center;
     column-gap: 0.5rem;
     row-gap: 1rem;
+
+}
+
+.todo.complete .title {
+
+    text-decoration: line-through;
+    color: var(--color-theme-alt-text);
 
 }
 
@@ -354,10 +388,11 @@ html, body {
     align-items: center;
     justify-items: left;
 
-    border-radius: 0.5rem;
+    border-radius: 0.1rem;
     padding-left: 1rem;
     padding-right: 1rem;
-    margin-bottom: 0.5rem;
+
+    border-bottom: 0.1rem solid var(--color-theme-alt-text);
 }
 
 .project-li:hover, .project-li:active {
@@ -429,10 +464,6 @@ html, body {
 
 button.delete:hover, button.delete:active {
     background-color: var(--color-theme-negative);
-}
-
-button.edit:hover, button.edit:active {
-    background-color: var(--color-theme-mixed);
 }
 
 .hidden {

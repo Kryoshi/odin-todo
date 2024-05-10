@@ -23,6 +23,8 @@ class UIComponent {
         this.nav = document.createElement('div');
         this.content = document.createElement('div');
         
+        const pageHeader = document.createElement('div');
+        const pageLogo = createButton('home');
         const pageTitle = document.createElement('h1');
         const newProject = createButton('new');
 
@@ -33,13 +35,16 @@ class UIComponent {
         this.nav.setAttribute('id', 'nav');
         this.content.setAttribute('id', 'content');
 
+        pageHeader.className = 'page-header';
         pageTitle.className = 'page-title';
         pageTitle.textContent = APPNAME;
 
         newProject.classList.add('project-li');
 
         // Append elements
-        this.nav.append(pageTitle, newProject, this.projectListInstance.element);
+        pageHeader.append(pageLogo, pageTitle);
+
+        this.nav.append(pageHeader, newProject, this.projectListInstance.element);
 
         this.page.append(this.nav, this.content);
 
@@ -113,7 +118,7 @@ class ProjectUIComponent {
         const descriptionWrapper = document.createElement('div');
         this.description = document.createElement('textarea');
 
-        const newToDo = createButton('new');
+        const newButton = createButton('new');
 
         this.#content = document.createElement('div');
 
@@ -141,10 +146,12 @@ class ProjectUIComponent {
         descriptionWrapper.className = 'input-wrapper description';
         descriptionWrapper.dataset.copiedValue = this.description.value;
 
+        this.#content.className = 'todo-list';
+
         // Append elements
         titleWrapper.append(this.title);
         descriptionWrapper.append(this.description);
-        header.append(titleWrapper, descriptionWrapper, newToDo)
+        header.append(titleWrapper, descriptionWrapper, newButton)
         this.window.append(header, this.#content);
 
         // Add listeners
@@ -188,7 +195,7 @@ class ProjectUIComponent {
 
         });
 
-        newToDo.addEventListener('click', (e) => {
+        newButton.addEventListener('click', (e) => {
 
             const event = new CustomEvent('new-todo', 
             {
@@ -261,8 +268,6 @@ class ToDoUIComponent {
     #toDo;
     element;
     title;
-    #expandButton;
-    #editButton;
     description;
     #descriptionWrapper;
     complete;
@@ -279,8 +284,8 @@ class ToDoUIComponent {
         const titleWrapper = document.createElement('div');
         this.title = document.createElement('textarea');
 
-        this.#expandButton = createButton('expand');
-        this.#editButton = createButton('edit')
+        const expandButton = createButton('expand');
+        const editButton = createButton('edit')
         const deleteButton = createButton('delete')
 
         this.#descriptionWrapper = document.createElement('div');
@@ -294,6 +299,7 @@ class ToDoUIComponent {
         this.complete.className = 'status';
         this.complete.type = 'checkbox';
         this.complete.checked = this.#toDo.complete;
+        this.markComplete();
 
         this.title.className = 'title';
         this.title.placeholder = UNTITLED.todo;
@@ -311,7 +317,7 @@ class ToDoUIComponent {
 
         // Append elements
         titleWrapper.append(this.title);
-        mini.append(titleWrapper, this.#expandButton, this.#editButton, deleteButton);
+        mini.append(titleWrapper, expandButton, editButton, deleteButton);
 
         this.#descriptionWrapper.append(this.description);
         this.element.append(this.complete, mini, this.#descriptionWrapper);
@@ -319,6 +325,8 @@ class ToDoUIComponent {
         // Add event listeners
 
         this.complete.addEventListener('input', (e) => {
+
+            this.markComplete();
 
             const event = new CustomEvent('update-todo',
             { 
@@ -370,13 +378,13 @@ class ToDoUIComponent {
 
         });
 
-        this.#editButton.addEventListener('click', (e) => {
+        editButton.addEventListener('click', (e) => {
 
             this.toggleEdit();
 
         });
 
-        this.#expandButton.addEventListener('click', (e) => {
+        expandButton.addEventListener('click', (e) => {
 
             if (!(this.#descriptionWrapper.classList.contains('hidden'))) {
 
@@ -398,14 +406,14 @@ class ToDoUIComponent {
     expand () {
 
         this.#descriptionWrapper.classList.remove('hidden');
-        this.#expandButton.classList.add('expanded');
+        this.element.classList.add('expanded');
 
     }
 
     condense () {
 
         this.#descriptionWrapper.classList.add('hidden');
-        this.#expandButton.classList.remove('expanded');
+        this.element.classList.remove('expanded');
 
     }
 
@@ -416,11 +424,25 @@ class ToDoUIComponent {
 
         if (this.title.disabled) {
 
-            this.#editButton.classList.add('locked');
+            this.element.classList.add('locked');
 
         } else {
 
-            this.#editButton.classList.remove('locked');
+            this.element.classList.remove('locked');
+
+        }
+
+    }
+
+    markComplete() {
+
+        if (this.complete.checked) {
+
+            this.element.classList.add('complete');
+ 
+        } else {
+
+            this.element.classList.remove('complete');
 
         }
 
