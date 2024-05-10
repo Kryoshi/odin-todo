@@ -23,13 +23,16 @@ class App {
         if (storageAvailable('localStorage')) {
 
             const loadArray = JSON.parse(localStorage.getItem('projects'));
-            
-            for (let project of loadArray) {
+            if (loadArray) {
+
+                for (let project of loadArray) {
+                    
+                    let projectInstance = new Project(project);
+
+                    this.add(projectInstance);
+
+                }
                 
-                let projectInstance = new Project(project);
-
-                this.add(projectInstance);
-
             }
 
         }
