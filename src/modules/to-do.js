@@ -1,50 +1,45 @@
 export { ToDo };
 
 class ToDo {
+  #project;
+  title = '';
+  description = '';
+  complete = false;
 
-    #project;
-    title = "";
-    description = "";
-    complete = false;
+  dueDate;
 
-    dueDate;
+  constructor(
+    project,
+    {
+      title = this.title,
+      description = this.description,
+      complete = this.complete,
+      dueDate = this.dueDate,
+    } = {}
+  ) {
+    this.#project = project;
 
+    this.title = title;
+    this.description = description;
+    this.complete = complete;
 
-    constructor (
-        project, {
-        title = this.title,
-        description = this.description,
-        complete = this.complete,
-        dueDate = this.dueDate
-    } = {}) {
+    this.dueDate = dueDate;
+  }
 
-        this.#project = project;
+  update({
+    title = this.title,
+    description = this.description,
+    dueDate = this.dueDate,
+    complete = this.complete,
+  } = {}) {
+    this.title = title;
+    this.description = description;
+    this.complete = complete;
 
-        this.title = title;
-        this.description = description;
-        this.complete = complete;
+    this.dueDate = dueDate;
+  }
 
-        this.dueDate = dueDate;
-
-    }
-
-    update ({
-        title = this.title, 
-        description = this.description, 
-        dueDate = this.dueDate, 
-        complete = this.complete
-    } = {}) {
-        
-        this.title = title;
-        this.description = description;
-        this.complete = complete;
-        
-        this.dueDate = dueDate;
-
-    }
-
-    getProject () {
-        return this.#project;
-    }
-
+  getProject() {
+    return this.#project;
+  }
 }

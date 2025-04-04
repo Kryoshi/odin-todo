@@ -1,90 +1,66 @@
-import { ToDo } from "./to-do";
+import { ToDo } from './to-do';
 
 export { Project };
 
 class Project {
+  title = '';
+  description = '';
+  status = 0;
 
-    title = '';
-    description = '';
-    status = 0;
+  list = [];
 
-    list = [];
+  dueDate;
 
-    dueDate;
+  constructor({
+    title = this.title,
+    description = this.description,
+    status = this.status,
+    list = this.list,
+    dueDate = this.dueDate,
+  } = {}) {
+    this.title = title;
+    this.description = description;
+    this.status = status;
 
+    for (let todo of list) {
+      this.add(new ToDo(this, todo));
+    }
 
-    constructor ({
+    this.dueDate = dueDate;
+  }
 
-        title = this.title, 
-        description = this.description, 
-        status = this.status, 
-        list = this.list,
-        dueDate = this.dueDate
+  update({
+    title = this.title,
+    description = this.description,
+    dueDate = this.dueDate,
+  } = {}) {
+    this.title = title;
+    this.description = description;
+    this.dueDate = dueDate;
+  }
 
-    } = {}) {
-
-        this.title = title;
-        this.description = description;
-        this.status = status;
-
-        for (let todo of list) {
-
-            this.add(new ToDo(this, todo));
-
+  checkStatus() {
+    if (this.list[0]) {
+      let count = 0;
+      let complete = 0;
+      for (let toDo of this.list) {
+        count++;
+        if (toDo.complete === true) {
+          complete++;
         }
-
-        this.dueDate = dueDate;
-
+      }
+      this.status = complete / count;
     }
+  }
 
-    update ({
-        
-        title = this.title, 
-        description = this.description, 
-        dueDate = this.dueDate
+  add(toDo) {
+    this.list.push(toDo);
+  }
 
-    } = {}) {
-        
-        this.title = title;
-        this.description = description;
-        this.dueDate = dueDate;
-        
+  remove(toDo) {
+    let index = this.list.indexOf(toDo);
+    if (index !== -1) {
+      this.list.splice(index, 1);
     }
-
-    checkStatus () {
-
-        if (this.list[0]) {
-            
-            let count = 0;
-            let complete = 0;
-            for (let toDo of this.list) {
-
-                count++;
-                if (toDo.complete === true) {
-
-                    complete++;
-
-                }
-
-            }
-            this.status = complete / count;
-
-        }
-
-    }
-
-    add (toDo) {
-
-        this.list.push(toDo);
-
-    }
-
-    remove (toDo) {
-
-        let index = this.list.indexOf(toDo);
-        if (index !== -1) {
-            this.list.splice(index, 1);
-        }
-
-    }
+  }
 }

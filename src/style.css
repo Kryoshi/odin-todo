@@ -1,457 +1,419 @@
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 @font-face {
+  font-family: 'Script';
 
-    font-family: 'Script';
-  
-    src: url('./fonts/tangerine_regular-webfont.woff2') format('woff2'),
-  
-      url('./fonts/tangerine_regular-webfont.woff') format('woff');
-  
-    font-weight: 600;
-  
-    font-style: normal;
-  
-  }
+  src: url('./fonts/tangerine_regular-webfont.woff2') format('woff2'),
+    url('./fonts/tangerine_regular-webfont.woff') format('woff');
+
+  font-weight: 600;
+
+  font-style: normal;
+}
 
 :root {
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-    font-size: 16px;
-
-
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    'Lucida Sans', Arial, sans-serif;
+  font-size: 16px;
 }
 
 :root .theme-light {
-    --color-theme-main: #fafaf9;
-    --color-theme-main-bg: #e7e5e4;
-    --color-theme-main-shadow: #a3a3a3;
-    --color-theme-main-highlight: #d1d5db;
+  --color-theme-main: #fafaf9;
+  --color-theme-main-bg: #e7e5e4;
+  --color-theme-main-shadow: #a3a3a3;
+  --color-theme-main-highlight: #d1d5db;
 
-    --color-theme-alt: #fef3c7;
-    --color-theme-alt-bg: ;
-    --color-theme-alt-shadow: #e7e5e4;
-    --color-theme-alt-highlight: #fed7aa;
+  --color-theme-alt: #fef3c7;
+  --color-theme-alt-bg: ;
+  --color-theme-alt-shadow: #e7e5e4;
+  --color-theme-alt-highlight: #fed7aa;
 
-    --color-theme-main-text: #09090b;
-    --color-theme-alt-text: #52525b;
+  --color-theme-main-text: #09090b;
+  --color-theme-alt-text: #52525b;
 
-    --color-theme-user: #34d399;
+  --color-theme-user: #34d399;
 
-    --color-theme-positive: #86efac;
-    --color-theme-mixed: #f59e0b;
-    --color-theme-negative: #f87171;
+  --color-theme-positive: #86efac;
+  --color-theme-mixed: #f59e0b;
+  --color-theme-negative: #f87171;
 }
 
 :root .theme-dark {
-    --color-theme-main: #0c0a09;
-    --color-theme-main-bg: #09090b;
-    --color-theme-main-shadow: #6b7280;
+  --color-theme-main: #0c0a09;
+  --color-theme-main-bg: #09090b;
+  --color-theme-main-shadow: #6b7280;
 
-    --color-theme-alt: ;
-    --color-theme-alt-bg: ;
+  --color-theme-alt: ;
+  --color-theme-alt-bg: ;
 
-    --color-theme-main-text: #fafaf9;
-    --color-theme-alt-text: #e5e7eb;
+  --color-theme-main-text: #fafaf9;
+  --color-theme-alt-text: #e5e7eb;
 
-    --color-theme-user: #059669;
+  --color-theme-user: #059669;
 
-    --color-theme-positive: #059669;
-    --color-theme-mixed: #f59e0b;
-    --color-theme-negative: #ef4444;
+  --color-theme-positive: #059669;
+  --color-theme-mixed: #f59e0b;
+  --color-theme-negative: #ef4444;
 }
 
-h1,h2,h3,h4,h5,h6,p,a {
-    margin: 0;
-    padding: 0;
-    color: inherit;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a {
+  margin: 0;
+  padding: 0;
+  color: inherit;
 }
 
 button {
-    font: inherit;
-    appearance: none;
-    padding: 0;
-    color: inherit;
-    cursor: pointer;
+  font: inherit;
+  appearance: none;
+  padding: 0;
+  color: inherit;
+  cursor: pointer;
 }
 
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 a:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 h6 {
-    font-size: 1rem;
+  font-size: 1rem;
 }
 
 h5 {
-    font-size: 1.1rem;
+  font-size: 1.1rem;
 }
 
 h4 {
-    font-size: 1.3rem;
+  font-size: 1.3rem;
 }
 
 h3 {
-    font-size: 1.5rem;
+  font-size: 1.5rem;
 }
 
 h2 {
-    font-size: 1.7rem;
+  font-size: 1.7rem;
 }
 
 h1 {
-    font-size: 2rem;
+  font-size: 2rem;
 }
 
 ul {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
 }
 
-input, textarea {
-    appearance: none;
-    background-color: inherit;
-    font: inherit;
-    border: none;
-    padding: 0.5rem;
+input,
+textarea {
+  appearance: none;
+  background-color: inherit;
+  font: inherit;
+  border: none;
+  padding: 0.5rem;
 }
 
-input:focus, textarea:focus {
-    outline: none;
-    border-bottom: 1px solid var(--color-theme-main-shadow);
+input:focus,
+textarea:focus {
+  outline: none;
+  border-bottom: 1px solid var(--color-theme-main-shadow);
 }
 
 textarea:disabled {
-    color: var(--color-theme-main-text);
+  color: var(--color-theme-main-text);
 }
 
 button {
-    background: none;
-    border: none;
+  background: none;
+  border: none;
 }
 
 button .icon {
-
-    height: 80%;
-    width: 100%;
-    background-position: center;
-    background-repeat: no-repeat;
-    
+  height: 80%;
+  width: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 button.home .icon {
-    background-image: url('./img/notebook.svg');
+  background-image: url('./img/notebook.svg');
 }
 
 button.delete .icon {
-    background-image: url('./img/trash.svg');
+  background-image: url('./img/trash.svg');
 }
 
 .todo button.edit .icon {
-    background-image: url('./img/lock-open.svg');
+  background-image: url('./img/lock-open.svg');
 }
 
 .todo.locked button.edit .icon {
-    background-image: url('./img/lock.svg');
+  background-image: url('./img/lock.svg');
 }
 
 button.expand .icon {
-    background-image: url('./img/arrow-down.svg');
+  background-image: url('./img/arrow-down.svg');
 }
 
 .expanded button.expand .icon {
-    background-image: url('./img/arrow-up.svg');
+  background-image: url('./img/arrow-up.svg');
 }
 
 button.new .icon {
-    background-image: url('./img/plus.svg');
+  background-image: url('./img/plus.svg');
 }
 
-html, body {
-    margin: 0;
-    padding: 0;
+html,
+body {
+  margin: 0;
+  padding: 0;
 
-    height: 100%
+  height: 100%;
 }
 
 #page {
-    min-height: 100%;
-    display: flex;
+  min-height: 100%;
+  display: flex;
 }
 
 .page-header {
-
-    height: 5rem;
-    display: flex;
-    align-items: center;
+  height: 5rem;
+  display: flex;
+  align-items: center;
 }
 
 .page-header button.home {
-
-    width: 4rem;
-    height: 4rem;
-
+  width: 4rem;
+  height: 4rem;
 }
 .page-title {
-    font-size: 4rem;
-    font-family: 'Script', Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-size: 4rem;
+  font-family: 'Script', Cambria, Cochin, Georgia, Times, 'Times New Roman',
+    serif;
 }
 
 #nav {
-    min-width: clamp(40ch, 20%, 60ch);
-    background: var(--color-theme-alt);
+  min-width: clamp(40ch, 20%, 60ch);
+  background: var(--color-theme-alt);
 
-    display: flex;
-    flex-direction: column;
-    padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
 
-    border-right: 0.2rem outset var(--color-theme-alt-highlight);
+  border-right: 0.2rem outset var(--color-theme-alt-highlight);
 }
 
 @media (max-width: 800px) {
-    #page {
-        flex-direction: column;
-    }
-    #nav {
-        min-width: 0;
-    }
+  #page {
+    flex-direction: column;
+  }
+  #nav {
+    min-width: 0;
+  }
 }
 
 #content {
+  flex-grow: 1;
+  background: var(--color-theme-main-bg);
 
-    flex-grow: 1;
-    background: var(--color-theme-main-bg);
+  display: flex;
+  flex-direction: column;
 
-    display: flex;
-    flex-direction: column;
-
-    padding: 1rem;
+  padding: 1rem;
 }
 
-.project button:hover, .project button:active {
-
-    background-color: var(--color-theme-main-highlight);
-
+.project button:hover,
+.project button:active {
+  background-color: var(--color-theme-main-highlight);
 }
 
 .project {
-
-    display: grid;
-    grid-template-rows: min-content 1fr;
-    gap: 2rem;
+  display: grid;
+  grid-template-rows: min-content 1fr;
+  gap: 2rem;
 }
 
 .input-wrapper {
-    display: grid;
+  display: grid;
 }
 
 .input-wrapper::after {
-    content: attr(data-copied-value) " ";
-    white-space: pre-wrap;
-    word-break: break-all;
-    visibility: hidden;
+  content: attr(data-copied-value) ' ';
+  white-space: pre-wrap;
+  word-break: break-all;
+  visibility: hidden;
 }
 
 .input-wrapper textarea {
-    resize: none;
-    overflow: hidden;
+  resize: none;
+  overflow: hidden;
 }
 
-.input-wrapper textarea, .input-wrapper::after {
+.input-wrapper textarea,
+.input-wrapper::after {
+  padding: 0.5rem;
 
-    padding: 0.5rem;
-
-    grid-area: 1 / 1 / 2 / 2;
-
+  grid-area: 1 / 1 / 2 / 2;
 }
 .project .header {
+  background-color: var(--color-theme-main);
+  padding: 1rem;
+  border-radius: 0.5rem;
 
-    background-color: var(--color-theme-main);
-    padding: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 2rem;
+  grid-template-rows: min-content min-content min-content;
+
+  .title {
+    grid-column: 1 / 2;
+  }
+  .description {
+    grid-column: 1 / 2;
+    grid-row: 2 / -1;
+  }
+
+  button.new {
+    min-height: 2rem;
+    min-width: 2rem;
+    grid-row: 3 / -1;
     border-radius: 0.5rem;
-
-    display: grid;
-    grid-template-columns: 1fr 2rem;
-    grid-template-rows: min-content min-content min-content;
-
-    .title {
-
-        grid-column: 1 / 2;
-
-    }
-    .description {
-        
-        grid-column: 1 / 2;
-        grid-row: 2 / -1;
-
-    }
-
-    button.new {
-
-        min-height: 2rem;
-        min-width: 2rem;
-        grid-row: 3 / -1;
-        border-radius: 0.5rem;
-
-    }
-
-
+  }
 }
 
 .todo {
+  background-color: var(--color-theme-main);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
 
-    background-color: var(--color-theme-main);
-    border-radius: 0.5rem;
-    padding: 1rem;
-    margin-bottom: 1rem;
-
-    display: grid;
-    grid-template-columns: 1.5rem 1fr 2rem 2rem 2rem;
-    align-items: center;
-    column-gap: 0.5rem;
-    row-gap: 1rem;
-
+  display: grid;
+  grid-template-columns: 1.5rem 1fr 2rem 2rem 2rem;
+  align-items: center;
+  column-gap: 0.5rem;
+  row-gap: 1rem;
 }
 
 .todo.complete .title {
-
-    text-decoration: line-through;
-    color: var(--color-theme-alt-text);
-
+  text-decoration: line-through;
+  color: var(--color-theme-alt-text);
 }
 
 .todo input[type='checkbox'] {
+  width: 1.2rem;
+  height: 1.2rem;
+  cursor: pointer;
+  border: 0.2rem outset var(--color-theme-alt-text);
+  border-radius: 50%;
+  padding: 0.1rem;
 
-    width: 1.2rem;
-    height: 1.2rem;
-    cursor: pointer;
-    border: 0.2rem outset var(--color-theme-alt-text);
-    border-radius: 50%;
-    padding: 0.1rem;
-
-    transition: all 0.1s linear;
+  transition: all 0.1s linear;
 }
 
 .todo input[type='checkbox']:checked {
-
-    background-color: var(--color-theme-user);
-    border: 0.5rem outset var(--color-theme-alt-text);
-
+  background-color: var(--color-theme-user);
+  border: 0.5rem outset var(--color-theme-alt-text);
 }
 
 .todo .mini {
-    grid-column: 2 / -1;
-    display: grid;
-    grid-template-columns: subgrid;
+  grid-column: 2 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
 }
 
 .todo .description {
-
-    grid-column: 2 / 3;
-    
+  grid-column: 2 / 3;
 }
 
 .todo button {
-
-    border-radius: 10%;
-    height: 2rem;
-    width: 2rem;
-    
+  border-radius: 10%;
+  height: 2rem;
+  width: 2rem;
 }
 
 .project-li {
-    height: 3rem;
+  height: 3rem;
 
-    display: grid;
-    grid-template-columns: 1fr 5ch 2rem;
-    gap: 1rem;
-    align-items: center;
-    justify-items: left;
+  display: grid;
+  grid-template-columns: 1fr 5ch 2rem;
+  gap: 1rem;
+  align-items: center;
+  justify-items: left;
 
-    border-radius: 0.1rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
+  border-radius: 0.1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
 
-    border-bottom: 0.1rem solid var(--color-theme-alt-text);
+  border-bottom: 0.1rem solid var(--color-theme-alt-text);
 }
 
-.project-li:hover, .project-li:active {
-
-    background-color: var(--color-theme-alt-highlight);
-
+.project-li:hover,
+.project-li:active {
+  background-color: var(--color-theme-alt-highlight);
 }
 
 .project-li.new .icon {
-    background-position: left;
+  background-position: left;
 }
 
 .project-li .title {
-    
-    height: 100%;
-    text-align: left;
-    min-width: 20ch;
-    max-width: 12vw;
+  height: 100%;
+  text-align: left;
+  min-width: 20ch;
+  max-width: 12vw;
 
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 @media (max-width: 800px) {
-
-    .project-li .title {
-        
-        min-width: 0;
-        max-width: 100%;
-    
-    }
-
+  .project-li .title {
+    min-width: 0;
+    max-width: 100%;
+  }
 }
 
 .project-li .status {
-
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    
+  padding: 0.5rem;
+  border-radius: 0.5rem;
 }
 
 .project-li .status.incomplete {
-
-    background-color: var(--color-theme-negative);        
-
+  background-color: var(--color-theme-negative);
 }
 
 .project-li .status.in-progress {
-
-    background-color: var(--color-theme-mixed);
-
+  background-color: var(--color-theme-mixed);
 }
 
 .project-li .status.complete {
-
-    background-color: var(--color-theme-positive);
-
+  background-color: var(--color-theme-positive);
 }
 
 .project-li button.delete {
-
-    border-radius: 10%;
-    height: 2rem;
-    width: 2rem;
-    
+  border-radius: 10%;
+  height: 2rem;
+  width: 2rem;
 }
 
-button.delete:hover, button.delete:active {
-    background-color: var(--color-theme-negative);
+button.delete:hover,
+button.delete:active {
+  background-color: var(--color-theme-negative);
 }
 
 .hidden {
-    display: none;
+  display: none;
 }
